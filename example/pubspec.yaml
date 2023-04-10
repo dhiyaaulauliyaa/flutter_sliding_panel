@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_sliding_panel:
+    path: ../
 
 dev_dependencies:
   flutter_test:
