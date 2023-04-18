@@ -7,6 +7,7 @@ class _PanelWidget extends StatefulWidget {
     required this.child,
     required this.config,
     required this.controller,
+    required this.delegate,
     this.decoration,
     this.onDragStart,
     this.onDragEnd,
@@ -18,6 +19,7 @@ class _PanelWidget extends StatefulWidget {
 
   final SlidingPanelController controller;
   final SlidingPanelConfig config;
+  final PanelContentDelegate? delegate;
 
   final Widget child;
   final BoxDecoration? decoration;
@@ -37,6 +39,13 @@ class _PanelWidgetState extends State<_PanelWidget> {
   late double _anchorPosition;
   late double _panelPosition;
 
+  late bool _haveScrollableChild;
+  late int _scrollableChildCount;
+  late List<ScrollController> _scrollController;
+  late ValueNotifier<List<ScrollPhysics>> _scrollPhysics;
+  late ScrollablePanelContentDelegate _scrollDelegate;
+  final _justExpanded = ValueNotifier<bool>(false);
+
   Duration _duration = Duration.zero;
   bool _isAnimating = false;
 
@@ -45,6 +54,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
     super.initState();
     _initPanel();
     _initController();
+    _initScrollView();
   }
 
   @override
@@ -114,6 +124,24 @@ class _PanelWidgetState extends State<_PanelWidget> {
     });
   }
 
+  void _initScrollView() {
+    _haveScrollableChild = widget.delegate is ScrollablePanelContentDelegate;
+    if (!_haveScrollableChild) return;
+
+    _scrollDelegate = widget.delegate! as ScrollablePanelContentDelegate;
+    _scrollPhysics = _scrollDelegate.physics;
+    _scrollController = _scrollDelegate.scrollController;
+    _scrollableChildCount = _scrollController.length;
+
+    if (widget.controller.value.status == SlidingPanelStatus.anchored) {
+      _updateScrollPhysics(enableScroll: false);
+    }
+
+    for (var i = 0; i < _scrollController.length; i++) {
+      _scrollController[i].addListener(() => _scrollListener(i));
+    }
+  }
+
   //?? ---------------------------------------- ??//
   //?? ---------- Controller Handler ---------- ??//
   void _controllerListener() {
@@ -126,6 +154,67 @@ class _PanelWidgetState extends State<_PanelWidget> {
         break;
       default:
         break;
+    }
+  }
+
+  //?? ---------------------------------------- ??//
+  //?? ---------- ScrollView Handler ---------- ??//
+  void _updateScrollPhysics({required bool enableScroll}) {
+    _scrollPhysics.value = List.generate(
+      _scrollableChildCount,
+      (index) => enableScroll
+          ? _scrollDelegate.defaultPhysics[index]
+          : const NeverScrollableScrollPhysics(),
+    );
+  }
+
+  void _scrollToTop() {
+    for (final controller in _scrollController) {
+      if (controller.hasClients) {
+        controller.animateTo(
+          0,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeOutCirc,
+        );
+      }
+    }
+  }
+
+  void _updateScrollViewState({required SlidingPanelStatus status}) {
+    if (!_haveScrollableChild) return;
+
+    _justExpanded.value = status == SlidingPanelStatus.expanded;
+
+    _updateScrollPhysics(
+      enableScroll: status == SlidingPanelStatus.expanded,
+    );
+
+    if (status == SlidingPanelStatus.anchored) _scrollToTop();
+  }
+
+  void _scrollListener(int index) {
+    final controller = _scrollController[index];
+
+    /* If Scrolled Down */
+    if (controller.position.userScrollDirection == ScrollDirection.forward) {
+      /* If panel is just been expanded, then anchor the panel */
+      if (_justExpanded.value) {
+        _animatePanel(_anchorPosition, SlidingPanelStatus.anchored);
+        return;
+      }
+
+      /* If panel scrolled to top, disable scroll to allow panel anchored  */
+      if (controller.position.pixels < 0.1) {
+        _updateScrollPhysics(enableScroll: false);
+        return;
+      }
+    }
+
+    /* If Scrolled Up */
+    if (controller.position.userScrollDirection == ScrollDirection.reverse) {
+      if (_justExpanded.value) _justExpanded.value = false;
+
+      return;
     }
   }
 
@@ -248,6 +337,9 @@ class _PanelWidgetState extends State<_PanelWidget> {
             lastSnapStatus: status,
           ),
         );
+
+        /* Handle ScrollView */
+        _updateScrollViewState(status: status);
       });
     }
   }
