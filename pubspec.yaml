@@ -1,17 +1,17 @@
 name: flutter_sliding_panel
 description: A widget that has ability to be slided like a panel. Usually used in the homepage of an app.
 version: 0.0.1
-homepage: auliyaa.com
+homepage: https://ad.auliyaa.com
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
-  equatable: any
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter
