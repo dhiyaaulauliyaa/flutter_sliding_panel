@@ -52,14 +52,26 @@ class _PanelWidgetState extends State<_PanelWidget> {
   @override
   void initState() {
     super.initState();
+
     _initPanel();
     _initController();
     _initScrollView();
   }
 
   @override
+  void didUpdateWidget(covariant _PanelWidget oldWidget) {
+    if (!mounted) return;
+    super.didUpdateWidget(oldWidget);
+
+    _disposeScrollController();
+    _initScrollView();
+  }
+
+  @override
   void dispose() {
     widget.controller.removeListener(_controllerListener);
+    _disposeScrollController();
+
     super.dispose();
   }
 
@@ -142,6 +154,12 @@ class _PanelWidgetState extends State<_PanelWidget> {
     }
   }
 
+  void _disposeScrollController() {
+    for (final controller in _scrollController) {
+      controller.dispose();
+    }
+  }
+
   //?? ---------------------------------------- ??//
   //?? ---------- Controller Handler ---------- ??//
   void _controllerListener() {
@@ -160,12 +178,19 @@ class _PanelWidgetState extends State<_PanelWidget> {
   //?? ---------------------------------------- ??//
   //?? ---------- ScrollView Handler ---------- ??//
   void _updateScrollPhysics({required bool enableScroll}) {
-    _scrollPhysics.value = List.generate(
-      _scrollableChildCount,
-      (index) => enableScroll
-          ? _scrollDelegate.defaultPhysics[index]
-          : const NeverScrollableScrollPhysics(),
-    );
+    final isChanging = _scrollPhysics.value.first !=
+        (enableScroll
+            ? _scrollDelegate.defaultPhysics
+            : const NeverScrollableScrollPhysics());
+
+    if (isChanging) {
+      _scrollPhysics.value = List.generate(
+        _scrollableChildCount,
+        (index) => enableScroll
+            ? _scrollDelegate.defaultPhysics[index]
+            : const NeverScrollableScrollPhysics(),
+      );
+    }
   }
 
   void _scrollToTop() {
@@ -194,6 +219,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
 
   void _scrollListener(int index) {
     final controller = _scrollController[index];
+    if (!controller.hasClients) return;
 
     /* If Scrolled Down */
     if (controller.position.userScrollDirection == ScrollDirection.forward) {

@@ -7,8 +7,11 @@ class ScrollablePanelContentDelegate extends PanelContentDelegate {
     int count = 1,
     List<ScrollController>? scrollController,
     List<ScrollPhysics>? physics,
-  })  : assert(scrollController?.length == count),
-        assert(physics?.length == count) {
+  })  : assert(physics != null && physics.length == count || physics == null),
+        assert(
+          scrollController != null && scrollController.length == count ||
+              scrollController == null,
+        ) {
     this.scrollController = scrollController ??
         List.generate(
           count,
