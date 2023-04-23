@@ -142,7 +142,7 @@ class SlidingPanel extends StatelessWidget {
                 top: 0,
                 child: SizedBox(
                   width: constraints.maxWidth,
-                  height: constraints.minHeight,
+                  height: constraints.maxHeight,
                   child: pageContent,
                 ),
               ),
