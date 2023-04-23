@@ -155,6 +155,8 @@ class _PanelWidgetState extends State<_PanelWidget> {
   }
 
   void _disposeScrollController() {
+    if (!_haveScrollableChild) return;
+
     for (final controller in _scrollController) {
       controller.dispose();
     }
