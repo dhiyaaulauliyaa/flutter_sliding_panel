@@ -8,6 +8,7 @@ class _PanelWidget extends StatefulWidget {
     required this.config,
     required this.controller,
     required this.delegate,
+    this.abovePanel,
     this.decoration,
     this.onDragStart,
     this.onDragEnd,
@@ -22,6 +23,7 @@ class _PanelWidget extends StatefulWidget {
   final PanelContentDelegate? delegate;
 
   final Widget child;
+  final Widget? abovePanel;
   final BoxDecoration? decoration;
 
   final VoidCallback? onDragStart;
@@ -77,29 +79,50 @@ class _PanelWidgetState extends State<_PanelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPositioned(
-      bottom: _panelPosition,
-      duration: _duration,
-      curve: widget.config.snapingCurve,
-      onEnd: _resetAnimation,
-      child: Transform.translate(
-        offset: Offset(0, widget.maxHeight),
-        child: GestureDetector(
-          onVerticalDragStart: _dragStartHandler,
-          onVerticalDragEnd: _dragEndHandler,
-          onVerticalDragUpdate: _dragUpdateHandler,
-          child: Container(
-            width: widget.maxWidth,
-            height: widget.maxHeight,
-            decoration: widget.decoration,
-            child: ClipRRect(
-              borderRadius:
-                  widget.decoration?.borderRadius ?? BorderRadius.zero,
-              child: widget.child,
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          bottom: _panelPosition,
+          duration: _duration,
+          curve: widget.config.snapingCurve,
+          onEnd: _resetAnimation,
+          child: Transform.translate(
+            offset: Offset(0, widget.maxHeight),
+            child: GestureDetector(
+              onVerticalDragStart: _dragStartHandler,
+              onVerticalDragEnd: _dragEndHandler,
+              onVerticalDragUpdate: _dragUpdateHandler,
+              child: Container(
+                width: widget.maxWidth,
+                height: widget.maxHeight,
+                decoration: widget.decoration,
+                child: ClipRRect(
+                  borderRadius:
+                      widget.decoration?.borderRadius ?? BorderRadius.zero,
+                  child: widget.child,
+                ),
+              ),
             ),
           ),
         ),
-      ),
+        if (widget.abovePanel != null)
+          AnimatedPositioned(
+            bottom: _panelPosition,
+            duration: _duration,
+            curve: widget.config.snapingCurve,
+            onEnd: _resetAnimation,
+            child: GestureDetector(
+              onVerticalDragStart: _dragStartHandler,
+              onVerticalDragEnd: _dragEndHandler,
+              onVerticalDragUpdate: _dragUpdateHandler,
+              child: Container(
+                width: widget.maxWidth,
+                alignment: Alignment.center,
+                child: widget.abovePanel,
+              ),
+            ),
+          ),
+      ],
     );
   }
 

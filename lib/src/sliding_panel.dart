@@ -26,6 +26,7 @@ class SlidingPanel extends StatelessWidget {
     required this.panelContent,
     required this.controller,
     required this.config,
+    this.leading,
     this.pageContent,
     this.decoration,
     this.onDragStart,
@@ -39,6 +40,7 @@ class SlidingPanel extends StatelessWidget {
     required SlidingPanelConfig config,
     required ScrollableContentBuilder panelContentBuilder,
     Widget? pageContent,
+    Widget? leading,
     BoxDecoration? decoration,
     VoidCallback? onDragStart,
     VoidCallback? onDragEnd,
@@ -55,6 +57,7 @@ class SlidingPanel extends StatelessWidget {
       controller: controller,
       config: config,
       pageContent: pageContent,
+      leading: leading,
       decoration: decoration,
       onDragStart: onDragStart,
       onDragEnd: onDragEnd,
@@ -78,6 +81,7 @@ class SlidingPanel extends StatelessWidget {
     required int scrollableChildCount,
     required MultiScrollableContentBuilder panelContentBuilder,
     Widget? pageContent,
+    Widget? leading,
     BoxDecoration? decoration,
     VoidCallback? onDragStart,
     VoidCallback? onDragEnd,
@@ -100,6 +104,7 @@ class SlidingPanel extends StatelessWidget {
       onDragEnd: onDragEnd,
       onDragUpdate: onDragUpdate,
       delegate: delegate,
+      leading: leading,
       panelContent: ValueListenableBuilder<List<ScrollPhysics>>(
         valueListenable: delegate.physics,
         builder: (_, physics, __) {
@@ -118,6 +123,7 @@ class SlidingPanel extends StatelessWidget {
 
   final Widget panelContent;
   final Widget? pageContent;
+  final Widget? leading;
   final BoxDecoration? decoration;
 
   final VoidCallback? onDragStart;
@@ -152,6 +158,7 @@ class SlidingPanel extends StatelessWidget {
                 onDragEnd: onDragEnd,
                 onDragUpdate: onDragUpdate,
                 decoration: decoration,
+                abovePanel: leading,
                 child: panelContent,
               ),
             ],
