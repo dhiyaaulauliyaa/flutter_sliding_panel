@@ -142,6 +142,15 @@ class SlidingPanelExample extends StatelessWidget {
         ],
       ),
       pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      leading: Container(
+        width: 50,
+        height: 8,
+        margin: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
       panelContent: const Text(
         '\nDRAG ME!',
         textAlign: TextAlign.center,
@@ -271,6 +280,15 @@ class _MultiScrollableContentSlidingPanelExampleState
         ],
       ),
       pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      leading: Container(
+        width: 50,
+        height: 8,
+        margin: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
       panelContentBuilder: (controller, physics) => Column(
         children: [
           Padding(
