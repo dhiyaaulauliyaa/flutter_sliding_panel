@@ -141,7 +141,11 @@ class SlidingPanelExample extends StatelessWidget {
           ),
         ],
       ),
-      pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      pageContent: Column(
+        children: const [
+          Icon(Icons.bolt_rounded, size: 200),
+        ],
+      ),
       leading: Container(
         width: 50,
         height: 8,
@@ -195,7 +199,11 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
           ),
         ],
       ),
-      pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      pageContent: Column(
+        children: const [
+          Icon(Icons.bolt_rounded, size: 200),
+        ],
+      ),
       panelContentBuilder: (controller, physics) => Column(
         children: [
           Container(
@@ -279,7 +287,11 @@ class _MultiScrollableContentSlidingPanelExampleState
           ),
         ],
       ),
-      pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      pageContent: Column(
+        children: const [
+          Icon(Icons.bolt_rounded, size: 200),
+        ],
+      ),
       leading: Container(
         width: 50,
         height: 8,
