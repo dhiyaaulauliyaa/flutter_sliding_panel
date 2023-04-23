@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_panel/flutter_sliding_panel.dart';
 
@@ -27,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final controller = SlidingPanelController();
-  int slidingPanelTypeChoice = 1;
+  int slidingPanelTypeChoice = 0;
 
   @override
   void dispose() {
@@ -101,7 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         return ScrollableContentSlidingPanelExample(controller: controller);
       case 2:
-        return ScrollableContentSlidingPanelExample(controller: controller);
+        return MultiScrollableContentSlidingPanelExample(
+          controller: controller,
+        );
       default:
         return const SizedBox();
     }
@@ -184,15 +187,167 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
         ],
       ),
       pageContent: const Icon(Icons.bolt_rounded, size: 200),
-      panelContentBuilder: (controller, physics) => ListView.builder(
-        controller: controller,
-        physics: physics,
-        itemBuilder: (context, index) => Container(
-          height: 50,
-          alignment: Alignment.center,
-          color: Colors.white.withOpacity(index.isEven ? 0.2 : 0.3),
-          child: Text('$index'),
+      panelContentBuilder: (controller, physics) => Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            color: Colors.white.withOpacity(0.3),
+            child: Container(
+              height: 4,
+              width: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              controller: controller,
+              physics: physics,
+              itemBuilder: (context, index) => Container(
+                height: 50,
+                alignment: Alignment.center,
+                color: Colors.white.withOpacity(index.isEven ? 0.2 : 0.3),
+                child: Text('$index'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MultiScrollableContentSlidingPanelExample extends StatefulWidget {
+  const MultiScrollableContentSlidingPanelExample({
+    super.key,
+    required this.controller,
+  });
+
+  final SlidingPanelController controller;
+
+  @override
+  State<MultiScrollableContentSlidingPanelExample> createState() =>
+      _MultiScrollableContentSlidingPanelExampleState();
+}
+
+class _MultiScrollableContentSlidingPanelExampleState
+    extends State<MultiScrollableContentSlidingPanelExample>
+    with SingleTickerProviderStateMixin {
+  int tab = 0;
+  late final TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() => setState(() => tab = tabController.index));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlidingPanel.multiScrollableContent(
+      controller: widget.controller,
+      scrollableChildCount: 2,
+      config: SlidingPanelConfig(
+        anchorPosition: MediaQuery.of(context).size.height / 2,
+        expandPosition: MediaQuery.of(context).size.height - 200,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 5,
+            spreadRadius: 2,
+            color: Color(0x11000000),
+          ),
+        ],
+      ),
+      pageContent: const Icon(Icons.bolt_rounded, size: 200),
+      panelContentBuilder: (controller, physics) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: CupertinoSlidingSegmentedControl(
+              groupValue: tab,
+              onValueChanged: (value) => setState(() {
+                tab = value ?? 0;
+                tabController.animateTo(tab);
+              }),
+              children: {
+                0: Container(
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  child: const Text('Tab 1'),
+                ),
+                1: Container(
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  child: const Text('Tab 2'),
+                ),
+              },
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: List.generate(
+                2,
+                (index) => MultiScrollableChildTab(
+                  controller: controller[index],
+                  physics: physics[index],
+                  tabIndex: index,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MultiScrollableChildTab extends StatefulWidget {
+  const MultiScrollableChildTab({
+    super.key,
+    required this.controller,
+    required this.physics,
+    required this.tabIndex,
+  });
+
+  final ScrollController controller;
+  final ScrollPhysics physics;
+  final int tabIndex;
+
+  @override
+  State<MultiScrollableChildTab> createState() =>
+      _MultiScrollableChildTabState();
+}
+
+class _MultiScrollableChildTabState extends State<MultiScrollableChildTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ListView.builder(
+      controller: widget.controller,
+      physics: widget.physics,
+      itemBuilder: (context, index) => Container(
+        height: 50,
+        alignment: Alignment.center,
+        color: Colors.white.withOpacity(index.isEven ? 0.2 : 0.3),
+        child: Text('Tab ${widget.tabIndex + 1} Item $index'),
       ),
     );
   }
