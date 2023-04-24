@@ -324,17 +324,17 @@ class _PanelWidgetState extends State<_PanelWidget> {
   }
 
   void _dragEndHandler(DragEndDetails details) {
-    widget.onDragEnd?.call();
-
     /* Snap panel to expand position */
     if (_panelPosition > _expandPosition) {
       _animatePanel(_expandPosition, SlidingPanelStatus.expanded);
+      widget.onDragEnd?.call();
       return;
     }
 
     /* Snap panel to anchor position */
     if (_panelPosition < _anchorPosition) {
       _animatePanel(_anchorPosition, SlidingPanelStatus.anchored);
+      widget.onDragEnd?.call();
       return;
     }
 
@@ -360,6 +360,8 @@ class _PanelWidgetState extends State<_PanelWidget> {
       aboveThreshold ? oppositeSnapPosition : lastSnapPosition,
       aboveThreshold ? oppositeSnapStatus : _lastPanelStatus,
     );
+    widget.onDragEnd?.call();
+
     return;
   }
 
