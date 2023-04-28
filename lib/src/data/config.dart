@@ -1,5 +1,6 @@
 part of '../sliding_panel.dart';
 
+/// Set sliding panel configuration (position, animation, behavior).
 class SlidingPanelConfig extends Equatable {
   const SlidingPanelConfig({
     required this.anchorPosition,

@@ -1,5 +1,6 @@
 part of '../sliding_panel.dart';
 
+/// Control & animate sliding panel position.
 class SlidingPanelController extends ValueNotifier<SlidingPanelDetail> {
   SlidingPanelController({
     SlidingPanelStatus status = SlidingPanelStatus.anchored,

@@ -20,6 +20,19 @@ typedef MultiScrollableContentBuilder = Widget Function(
   List<ScrollPhysics> physics,
 );
 
+/// Create a slidable panel.
+///
+/// Typically used as a sub-page of a page.
+/// This widget will appear above the main page.
+///
+/// Some of important params:
+/// - [leading]: Used to display widget above the panel.
+/// Typically used to show panel handle.
+/// - [pageContent]: Used to display page behind sliding panel
+/// - [panelContent]: Used to display content of the panel.
+/// If the content is scrollable, its highly recommended to use
+/// [SlidingPanel.scrollableContent] / [SlidingPanel.multiScrollableContent]
+/// factory. The factory will handle the gesture to be as natural as possible.
 class SlidingPanel extends StatelessWidget {
   const SlidingPanel({
     super.key,
@@ -35,6 +48,20 @@ class SlidingPanel extends StatelessWidget {
     this.delegate,
   });
 
+  /// A factory to handle usage of scrollable [panelContent] of [SlidingPanel].
+  /// This factory will handle panel anchoring/expanding gesture combined with scroll gesture.
+  ///
+  /// To enable gesture handling, use scrollController & scrollPhysics
+  /// provided by [panelContentBuilder]
+  ///
+  /// Pass [ScrollView]'s [ScrollController] to [contentScrollController],
+  /// if null then this factory will instantiate it automatically
+  ///
+  /// Pass [ScrollView]'s [ScrollPhysics] to [contentScrollPhysics],
+  /// if null then this factory will instantiate it automatically
+  ///
+  /// use [SlidingPanel.multiScrollableContent] if [panelContent]
+  /// has multiple [ScrollView]
   factory SlidingPanel.scrollableContent({
     required SlidingPanelController controller,
     required SlidingPanelConfig config,
@@ -75,6 +102,20 @@ class SlidingPanel extends StatelessWidget {
     );
   }
 
+  /// A factory to handle usage of scrollable [panelContent] of [SlidingPanel].
+  /// This factory will handle panel anchoring/expanding gesture combined with scroll gesture.
+  ///
+  /// To enable gesture handling, use scrollController & scrollPhysics
+  /// provided by [panelContentBuilder]
+  ///
+  /// Pass [ScrollView]'s [ScrollController] to [contentScrollController],
+  /// if null then this factory will instantiate it automatically
+  ///
+  /// Pass [ScrollView]'s [ScrollPhysics] to [contentScrollPhysics],
+  /// if null then this factory will instantiate it automatically
+  ///
+  /// use [SlidingPanel.scrollableContent] if [panelContent]
+  /// has single [ScrollView]
   factory SlidingPanel.multiScrollableContent({
     required SlidingPanelController controller,
     required SlidingPanelConfig config,
@@ -117,17 +158,40 @@ class SlidingPanel extends StatelessWidget {
     );
   }
 
+  /// Control & animate sliding panel position.
   final SlidingPanelController controller;
+
+  /// Set sliding panel configuration (position, animation, behavior).
   final SlidingPanelConfig config;
+
+  /// A delegate to help build [panelContent].
+  /// Typically used for [panelContent] with [ScrollView] type.
   final PanelContentDelegate? delegate;
 
+  /// Used to display content of the panel.
+  ///
+  /// If the content is scrollable, its highly recommended to use
+  /// [SlidingPanel.scrollableContent] / [SlidingPanel.multiScrollableContent]
+  /// factory. The factory will handle the gesture to be as natural as possible.
   final Widget panelContent;
+
+  /// Used to display page behind sliding panel
   final Widget? pageContent;
+
+  /// Used to display widget above the panel.
+  /// Typically used to show panel handle.
   final Widget? leading;
+
+  /// Used to handle panel appearance.
   final BoxDecoration? decoration;
 
+  /// Callback to be called when drag started.
   final VoidCallback? onDragStart;
+
+  /// Callback to be called when drag ended.
   final VoidCallback? onDragEnd;
+
+  /// Callback to be called when drag updated.
   final void Function(SlidingPanelDetail details)? onDragUpdate;
 
   @override

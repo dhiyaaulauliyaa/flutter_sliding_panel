@@ -1,5 +1,6 @@
 part of '../sliding_panel.dart';
 
+/// Contain info about panel position and status.
 class SlidingPanelDetail extends Equatable {
   const SlidingPanelDetail({
     required this.status,
