@@ -292,7 +292,6 @@ class _PanelWidgetState extends State<_PanelWidget> {
   void _dragStartHandler(DragStartDetails details) {
     _resetAnimation();
     widget.onDragStart?.call();
-    widget.controller._setStatus(SlidingPanelStatus.onDrag);
   }
 
   void _dragUpdateHandler(DragUpdateDetails details) {
@@ -345,14 +344,12 @@ class _PanelWidgetState extends State<_PanelWidget> {
     /* Snap panel to expand position */
     if (_panelPosition > _expandPosition) {
       _animatePanel(_expandPosition, SlidingPanelStatus.expanded);
-      widget.onDragEnd?.call();
       return;
     }
 
     /* Snap panel to anchor position */
     if (_panelPosition < _anchorPosition) {
       _animatePanel(_anchorPosition, SlidingPanelStatus.anchored);
-      widget.onDragEnd?.call();
       return;
     }
 
@@ -378,8 +375,6 @@ class _PanelWidgetState extends State<_PanelWidget> {
       aboveThreshold ? oppositeSnapPosition : lastSnapPosition,
       aboveThreshold ? oppositeSnapStatus : _lastPanelStatus,
     );
-    widget.onDragEnd?.call();
-
     return;
   }
 
@@ -413,6 +408,8 @@ class _PanelWidgetState extends State<_PanelWidget> {
         _updateScrollViewState(status: status);
       });
     }
+
+    widget.onDragEnd?.call();
   }
 
   void _resetAnimation() {
