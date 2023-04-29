@@ -65,8 +65,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
     if (!mounted) return;
     super.didUpdateWidget(oldWidget);
 
-    _disposeScrollController();
-    _initScrollView();
+    _updateScrollDelegate();
   }
 
   @override
@@ -175,6 +174,25 @@ class _PanelWidgetState extends State<_PanelWidget> {
     for (var i = 0; i < _scrollController.length; i++) {
       _scrollController[i].addListener(() => _scrollListener(i));
     }
+  }
+
+  //?? ---------------------------------------- ??//
+  //?? ---------- ScrollView Handler ---------- ??//
+  void _updateScrollDelegate() {
+    if (!_haveScrollableChild) return;
+
+    var needToDispose = false;
+    for (var i = 0; i < _scrollController.length; i++) {
+      needToDispose = _scrollController[i] !=
+          (widget.delegate! as ScrollablePanelContentDelegate)
+              .scrollController[i];
+
+      if (needToDispose) break;
+    }
+
+    if (needToDispose) _disposeScrollController();
+
+    _initScrollView();
   }
 
   void _disposeScrollController() {
