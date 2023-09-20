@@ -9,6 +9,8 @@ part 'data/controller.dart';
 part 'data/delegate.dart';
 part 'data/detail.dart';
 part 'data/enums.dart';
+part 'internal_data/internal_detail.dart';
+part 'internal_data/internal_controller.dart';
 part 'widgets/panel_widget.dart';
 
 typedef ScrollableContentBuilder = Widget Function(
