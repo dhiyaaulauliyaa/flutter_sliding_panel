@@ -1,3 +1,9 @@
+## 0.0.3
+* Add capability to show RefreshIndicator when SlidingPanel is dragged
+* Create Controller for internal communication between widgets in SlidingPanel
+* Reorganize folder structure
+
+
 ## 0.0.2
 * Add capability to handle gesture if panel content is scroll view
 * Add example for scroll view content
