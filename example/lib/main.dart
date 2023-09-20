@@ -127,6 +127,12 @@ class SlidingPanelExample extends StatelessWidget {
         anchorPosition: MediaQuery.of(context).size.height / 2,
         expandPosition: MediaQuery.of(context).size.height - 200,
       ),
+      dragToRefreshConfig: SlidingPanelRefresherConfig(
+        onRefresh: () async {
+          await Future.delayed(const Duration(milliseconds: 1500), () {});
+          return;
+        },
+      ),
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: const BorderRadius.only(
