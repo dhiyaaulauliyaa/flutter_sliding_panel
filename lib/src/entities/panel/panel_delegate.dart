@@ -1,4 +1,4 @@
-part of '../sliding_panel.dart';
+part of '../../sliding_panel.dart';
 
 abstract class PanelContentDelegate {}
 

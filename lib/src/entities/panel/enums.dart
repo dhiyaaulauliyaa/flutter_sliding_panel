@@ -1,4 +1,4 @@
-part of '../sliding_panel.dart';
+part of '../../sliding_panel.dart';
 
 enum SlidingPanelSnapingBehavior {
   /// Snaping point will be fixed, calculated from anchor point

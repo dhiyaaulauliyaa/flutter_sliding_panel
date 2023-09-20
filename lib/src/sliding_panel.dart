@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-part 'data/config.dart';
-part 'data/controller.dart';
-part 'data/delegate.dart';
-part 'data/detail.dart';
-part 'data/enums.dart';
-part 'internal_data/internal_controller.dart';
-part 'internal_data/internal_detail.dart';
-part 'refresher_data/refresher_config.dart';
+part 'entities/internal/internal_controller.dart';
+part 'entities/internal/internal_detail.dart';
+part 'entities/panel/enums.dart';
+part 'entities/panel/panel_config.dart';
+part 'entities/panel/panel_controller.dart';
+part 'entities/panel/panel_delegate.dart';
+part 'entities/panel/panel_detail.dart';
+part 'entities/refresher/refresher_config.dart';
 part 'widgets/panel_widget.dart';
 part 'widgets/refresher_widget.dart';
 

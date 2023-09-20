@@ -1,4 +1,4 @@
-part of '../sliding_panel.dart';
+part of '../../sliding_panel.dart';
 
 /// Control & animate sliding panel position.
 class SlidingPanelController extends ValueNotifier<SlidingPanelDetail> {

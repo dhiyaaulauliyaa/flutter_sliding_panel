@@ -1,4 +1,4 @@
-part of '../sliding_panel.dart';
+part of '../../sliding_panel.dart';
 
 class _InternalController extends ValueNotifier<_InternalDetail> {
   _InternalController() : super(const _InternalDetail());
