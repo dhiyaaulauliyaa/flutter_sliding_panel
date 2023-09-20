@@ -36,7 +36,7 @@ typedef MultiScrollableContentBuilder = Widget Function(
 /// [SlidingPanel.scrollableContent] / [SlidingPanel.multiScrollableContent]
 /// factory. The factory will handle the gesture to be as natural as possible.
 class SlidingPanel extends StatelessWidget {
-  const SlidingPanel({
+  SlidingPanel({
     super.key,
     required this.panelContent,
     required this.controller,
@@ -196,12 +196,15 @@ class SlidingPanel extends StatelessWidget {
   /// Callback to be called when drag updated.
   final void Function(SlidingPanelDetail details)? onDragUpdate;
 
+  final _internalController = _InternalController();
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox.expand(
           child: Stack(
+            alignment: Alignment.topCenter,
             children: [
               /* Page Content */
               Positioned(
@@ -218,6 +221,7 @@ class SlidingPanel extends StatelessWidget {
                 maxWidth: constraints.maxWidth,
                 maxHeight: constraints.maxHeight,
                 controller: controller,
+                internalController: _internalController,
                 config: config,
                 delegate: delegate,
                 onDragStart: onDragStart,

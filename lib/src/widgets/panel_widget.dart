@@ -7,6 +7,7 @@ class _PanelWidget extends StatefulWidget {
     required this.child,
     required this.config,
     required this.controller,
+    required this.internalController,
     required this.delegate,
     this.abovePanel,
     this.decoration,
@@ -17,6 +18,8 @@ class _PanelWidget extends StatefulWidget {
 
   final double maxHeight;
   final double maxWidth;
+
+  final _InternalController internalController;
 
   final SlidingPanelController controller;
   final SlidingPanelConfig config;
@@ -386,6 +389,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
         /* Handle Animation */
         _duration = widget.config.snapingDuration;
         _isAnimating = true;
+        widget.internalController.setAnimatingStatus(_isAnimating);
 
         /* Handle Status */
         widget.controller._setStatus(status);
@@ -416,6 +420,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
     if (_isAnimating) {
       setState(() {
         _isAnimating = false;
+        widget.internalController.setAnimatingStatus(_isAnimating);
         _duration = Duration.zero;
       });
     }
