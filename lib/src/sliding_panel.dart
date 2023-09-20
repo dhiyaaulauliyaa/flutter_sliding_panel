@@ -9,10 +9,11 @@ part 'data/controller.dart';
 part 'data/delegate.dart';
 part 'data/detail.dart';
 part 'data/enums.dart';
-part 'internal_data/internal_detail.dart';
 part 'internal_data/internal_controller.dart';
+part 'internal_data/internal_detail.dart';
 part 'refresher_data/refresher_config.dart';
 part 'widgets/panel_widget.dart';
+part 'widgets/refresher_widget.dart';
 
 typedef ScrollableContentBuilder = Widget Function(
   ScrollController controller,
@@ -42,6 +43,7 @@ class SlidingPanel extends StatelessWidget {
     required this.panelContent,
     required this.controller,
     required this.config,
+    this.dragToRefreshConfig,
     this.leading,
     this.pageContent,
     this.decoration,
@@ -69,6 +71,7 @@ class SlidingPanel extends StatelessWidget {
     required SlidingPanelController controller,
     required SlidingPanelConfig config,
     required ScrollableContentBuilder panelContentBuilder,
+    SlidingPanelRefresherConfig? dragToRefreshConfig,
     Widget? pageContent,
     Widget? leading,
     BoxDecoration? decoration,
@@ -87,6 +90,7 @@ class SlidingPanel extends StatelessWidget {
       controller: controller,
       config: config,
       pageContent: pageContent,
+      dragToRefreshConfig: dragToRefreshConfig,
       leading: leading,
       decoration: decoration,
       onDragStart: onDragStart,
@@ -124,6 +128,7 @@ class SlidingPanel extends StatelessWidget {
     required SlidingPanelConfig config,
     required int scrollableChildCount,
     required MultiScrollableContentBuilder panelContentBuilder,
+    SlidingPanelRefresherConfig? dragToRefreshConfig,
     Widget? pageContent,
     Widget? leading,
     BoxDecoration? decoration,
@@ -143,6 +148,7 @@ class SlidingPanel extends StatelessWidget {
       controller: controller,
       config: config,
       pageContent: pageContent,
+      dragToRefreshConfig: dragToRefreshConfig,
       decoration: decoration,
       onDragStart: onDragStart,
       onDragEnd: onDragEnd,
@@ -166,6 +172,15 @@ class SlidingPanel extends StatelessWidget {
 
   /// Set sliding panel configuration (position, animation, behavior).
   final SlidingPanelConfig config;
+
+  /// Set [SlidingPanel]'s refresh indicator configuration.
+  ///
+  /// - If null, the refresh indicator won't be appear.
+  /// - If not null, the refresh indicator will appear if panel is dragged
+  /// down when it is anchored
+  ///
+  /// Defaults to null
+  final SlidingPanelRefresherConfig? dragToRefreshConfig;
 
   /// A delegate to help build [panelContent].
   /// Typically used for [panelContent] with [ScrollView] type.
@@ -232,6 +247,14 @@ class SlidingPanel extends StatelessWidget {
                 abovePanel: leading,
                 child: panelContent,
               ),
+
+              /* Refresh Indicator */
+              if (dragToRefreshConfig != null)
+                _RefresherWidget(
+                  config: dragToRefreshConfig!,
+                  panelController: controller,
+                  internalController: _internalController,
+                ),
             ],
           ),
         );
