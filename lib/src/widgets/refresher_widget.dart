@@ -37,6 +37,14 @@ class _RefresherWidgetState extends State<_RefresherWidget> {
   }
 
   @override
+  void dispose() {
+    widget.panelController.removeListener(_calcIndicatorDisplacement);
+    widget.internalController.removeListener(_setPanelAnimatingStatus);
+    
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
       top: _indicatorDefaultPosition + _indicatorDisplacement,
