@@ -16,6 +16,7 @@ class _RefresherWidget extends StatefulWidget {
 }
 
 class _RefresherWidgetState extends State<_RefresherWidget> {
+  late final bool _useCustomBuilder;
   late final double _indicatorDefaultPosition;
 
   double _indicatorDragCompletion = 0;
@@ -29,6 +30,7 @@ class _RefresherWidgetState extends State<_RefresherWidget> {
   void initState() {
     super.initState();
 
+    _useCustomBuilder = widget.config.indicatorBuilder != null;
     _indicatorDefaultPosition =
         widget.config.edgeOffset - _indicatorSize.height;
 
@@ -40,7 +42,7 @@ class _RefresherWidgetState extends State<_RefresherWidget> {
   void dispose() {
     widget.panelController.removeListener(_calcIndicatorDisplacement);
     widget.internalController.removeListener(_setPanelAnimatingStatus);
-    
+
     super.dispose();
   }
 
@@ -53,32 +55,33 @@ class _RefresherWidgetState extends State<_RefresherWidget> {
       child: Container(
         width: _indicatorSize.width,
         height: _indicatorSize.height,
-        alignment: Alignment.center,
-        decoration: widget.config.indicatorDecoration ??
-            BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              shape: BoxShape.circle,
-            ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          child: _isRefreshing
-              ? widget.config.indicatorRefreshChild ??
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                  )
-              : Opacity(
-                  opacity: _indicatorOpacity,
-                  child: AnimatedRotation(
-                    duration: Duration.zero,
-                    turns: _indicatorOpacity,
-                    child: widget.config.indicatorChild,
-                  ),
+        alignment: _useCustomBuilder ? null : Alignment.center,
+        decoration: _useCustomBuilder
+            ? null
+            : widget.config.indicatorDecoration ??
+                BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle,
                 ),
-        ),
+        child: widget.config.indicatorBuilder?.call(
+              context,
+              _isRefreshing,
+              _indicatorDisplacement,
+            ) ??
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: _RefreshIndicatorWidget(
+                key: ValueKey(
+                  _isRefreshing
+                      ? '_RefreshIndicatorWidget-Refreshing'
+                      : '_RefreshIndicatorWidget-Default',
+                ),
+                isRefreshing: _isRefreshing,
+                opacity: _indicatorOpacity,
+                refreshChild: widget.config.indicatorRefreshChild,
+                child: widget.config.indicatorChild,
+              ),
+            ),
       ),
     );
   }
@@ -151,5 +154,44 @@ class _RefresherWidgetState extends State<_RefresherWidget> {
     if (opacity > 1) opacity = 1;
 
     return opacity;
+  }
+}
+
+class _RefreshIndicatorWidget extends StatelessWidget {
+  const _RefreshIndicatorWidget({
+    super.key,
+    required this.isRefreshing,
+    required this.opacity,
+    required this.refreshChild,
+    required this.child,
+  });
+
+  final bool isRefreshing;
+  final double opacity;
+
+  final Widget? refreshChild;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isRefreshing) {
+      return refreshChild ??
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).iconTheme.color,
+            ),
+          );
+    } else {
+      return Opacity(
+        opacity: opacity,
+        child: AnimatedRotation(
+          duration: Duration.zero,
+          turns: opacity,
+          child: child,
+        ),
+      );
+    }
   }
 }
