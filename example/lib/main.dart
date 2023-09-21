@@ -191,6 +191,37 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
         anchorPosition: MediaQuery.of(context).size.height / 2,
         expandPosition: MediaQuery.of(context).size.height - 200,
       ),
+      dragToRefreshConfig: SlidingPanelRefresherConfig(
+        onRefresh: () async {
+          await Future.delayed(const Duration(milliseconds: 1500), () {});
+          return;
+        },
+        indicatorSize: const Size(52, 52),
+        indicatorBuilder: (context, isRefreshing, displacement) {
+          return DecoratedBox(
+            decoration: const BoxDecoration(
+              color: Colors.amber,
+              shape: BoxShape.circle,
+            ),
+            child: isRefreshing
+                ? Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  )
+                : Transform.rotate(
+                    angle: displacement * 0.05,
+                    child: Icon(
+                      Icons.refresh,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+          );
+        },
+      ),
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: const BorderRadius.only(
