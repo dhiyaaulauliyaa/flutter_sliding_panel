@@ -1,3 +1,8 @@
+## 0.0.4
+* Fix unmounted bug on RefresherWidget
+* Add custom child widget builder for Refresher
+
+
 ## 0.0.3
 * Add capability to show RefreshIndicator when SlidingPanel is dragged
 * Create Controller for internal communication between widgets in SlidingPanel
