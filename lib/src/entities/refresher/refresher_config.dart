@@ -9,6 +9,7 @@ class SlidingPanelRefresherConfig extends Equatable {
     this.displacementSpeed = 4.0,
     this.edgeOffset = 0.0,
     this.indicatorSize,
+    this.indicatorBuilder,
     this.indicatorRefreshChild,
     this.indicatorDecoration,
     this.indicatorChild = const Icon(Icons.refresh),
@@ -69,8 +70,34 @@ class SlidingPanelRefresherConfig extends Equatable {
   /// By default, the value of `indicatorSize` is Size(42,42).
   final Size? indicatorSize;
 
+  /// Use this builder if want to show a custom RefreshIndicator widget.
+  /// The builder has below params:
+  /// - `BuildContext` context: to pass context to the builder
+  /// - `bool` isRefreshing: whether the widget is refreshing or not
+  /// - `double` displacement: the displacement position of the RefresherWidget
+  ///
+  /// The `isRefreshing` params typically used to show different widget when
+  /// the refresher is refreshing. i.e. Show CircularProgressIndicator when
+  /// refreshing, otherwise show refresh icon.
+  ///
+  /// The `displacement` params typically used to manipulate indicator widget
+  /// when it is exposed. i.e. displacement is used as a reference for the
+  /// refresher's opacity. The bigger the displacement, the bigger the opacity,
+  /// and vice versa.
+  ///
+  /// The widget size returns by this builder is affected by [indicatorSize]
+  ///
+  /// By default, the value of `indicatorBuilder` is null
+  final Widget Function(
+    BuildContext context,
+    bool isRefreshing,
+    double displacement,
+  )? indicatorBuilder;
+
   /// Widget to be shown on refresh indicator when it is exposed
   /// (panel is dragged), Typically an [Icon]
+  ///
+  /// This will be ignored if [indicatorBuilder] is not null
   ///
   /// By default, the value of `indicatorChild` is refresh icon.
   final Widget indicatorChild;
@@ -78,11 +105,15 @@ class SlidingPanelRefresherConfig extends Equatable {
   /// Widget to be shown on refresh indicator when it is refeshing
   /// Typically a [CircularProgressIndicator]
   ///
+  /// This will be ignored if [indicatorBuilder] is not null
+  ///
   /// By default, the value of `indicatorRefreshChild` is
   /// CircularProgressIndicator.
   final Widget? indicatorRefreshChild;
 
   /// Refresh indicator widget decoration
+  ///
+  /// This will be ignored if [indicatorBuilder] is not null
   final BoxDecoration? indicatorDecoration;
 
   @override
@@ -93,6 +124,7 @@ class SlidingPanelRefresherConfig extends Equatable {
         displacementSpeed,
         edgeOffset,
         indicatorSize,
+        indicatorBuilder,
         indicatorRefreshChild,
         indicatorDecoration,
         indicatorChild,
