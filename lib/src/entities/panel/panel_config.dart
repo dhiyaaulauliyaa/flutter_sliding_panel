@@ -65,7 +65,6 @@ class SlidingPanelConfig extends Equatable {
   final Curve snapingCurve;
 
   /// Distance between [expandPosition] and [anchorPosition]
-  @protected
   double get innerDistance => expandPosition - anchorPosition;
 
   @override

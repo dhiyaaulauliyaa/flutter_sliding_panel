@@ -1,7 +1,8 @@
 part of '../sliding_panel.dart';
 
-class _RefresherWidget extends StatefulWidget {
-  const _RefresherWidget({
+class RefresherWidget extends StatefulWidget {
+  const RefresherWidget({
+    super.key,
     required this.config,
     required this.panelController,
     required this.internalController,
@@ -9,13 +10,13 @@ class _RefresherWidget extends StatefulWidget {
 
   final SlidingPanelRefresherConfig config;
   final SlidingPanelController panelController;
-  final _InternalController internalController;
+  final InternalController internalController;
 
   @override
-  State<_RefresherWidget> createState() => _RefresherWidgetState();
+  State<RefresherWidget> createState() => _RefresherWidgetState();
 }
 
-class _RefresherWidgetState extends State<_RefresherWidget> {
+class _RefresherWidgetState extends State<RefresherWidget> {
   late final bool _useCustomBuilder;
   late final double _indicatorDefaultPosition;
 

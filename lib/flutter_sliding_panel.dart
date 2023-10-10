@@ -1,3 +1,3 @@
 library flutter_sliding_panel;
 
-export 'src/sliding_panel.dart';
+export 'src/sliding_panel.dart' hide PanelWidget, RefresherWidget;

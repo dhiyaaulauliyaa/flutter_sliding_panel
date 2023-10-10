@@ -1,16 +1,15 @@
-part of '../../sliding_panel.dart';
-
-class _InternalDetail extends Equatable {
-  const _InternalDetail({
+import 'package:equatable/equatable.dart';
+class InternalDetail extends Equatable {
+  const InternalDetail({
     this.isAnimating = false,
   });
 
   final bool isAnimating;
 
-  _InternalDetail copyWith({
+  InternalDetail copyWith({
     bool? isAnimating,
   }) =>
-      _InternalDetail(
+      InternalDetail(
         isAnimating: isAnimating ?? this.isAnimating,
       );
 

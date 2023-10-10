@@ -1,17 +1,16 @@
-part of '../../sliding_panel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_sliding_panel/src/entities/internal/internal_detail.dart';
 
-class _InternalController extends ValueNotifier<_InternalDetail> {
-  _InternalController() : super(const _InternalDetail());
+class InternalController extends ValueNotifier<InternalDetail> {
+  InternalController() : super(const InternalDetail());
 
   bool get isAnimating => value.isAnimating;
 
-  @protected
-  void setValue(_InternalDetail detail) {
+  void setValue(InternalDetail detail) {
     value = detail;
     notifyListeners();
   }
 
-  @protected
   void setAnimatingStatus(bool isAnimating) {
     value = value.copyWith(isAnimating: isAnimating);
     notifyListeners();
