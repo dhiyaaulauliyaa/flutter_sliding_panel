@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.18.6 <3.0.0"
 
 dependencies:
+  device_preview: ^1.1.0
   flutter:
     sdk: flutter
   flutter_sliding_panel:
