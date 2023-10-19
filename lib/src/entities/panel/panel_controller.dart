@@ -17,17 +17,17 @@ class SlidingPanelController extends ValueNotifier<SlidingPanelDetail> {
 
   SlidingPanelStatus get status => value.status;
 
-  @protected
-  void _initValue(SlidingPanelDetail detail) => value = detail;
+  @visibleForTesting
+  void initValue(SlidingPanelDetail detail) => value = detail;
 
-  @protected
-  void _setValue(SlidingPanelDetail detail) {
+  @visibleForTesting
+  void setValue(SlidingPanelDetail detail) {
     value = detail;
     notifyListeners();
   }
 
-  @protected
-  void _setStatus(SlidingPanelStatus newStatus) {
+  @visibleForTesting
+  void setStatus(SlidingPanelStatus newStatus) {
     if (newStatus != status) {
       value = value.copyWith(status: newStatus);
       notifyListeners();

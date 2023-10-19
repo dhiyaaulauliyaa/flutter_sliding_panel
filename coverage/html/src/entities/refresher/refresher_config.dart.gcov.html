@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - src/entities/refresher/refresher_config.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">src/entities/refresher</a> - refresher_config.dart<span style="font-size: 80%;"> (source / <a href="refresher_config.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2023-10-11 01:06:56</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : part of '../../sliding_panel.dart';</a>
+<a name="2"><span class="lineNum">       2 </span>            : </a>
+<a name="3"><span class="lineNum">       3 </span>            : /// Set sliding panel's refresher configuration</a>
+<a name="4"><span class="lineNum">       4 </span>            : class SlidingPanelRefresherConfig extends Equatable {</a>
+<a name="5"><span class="lineNum">       5 </span><span class="lineCov">          2 :   const SlidingPanelRefresherConfig({</span></a>
+<a name="6"><span class="lineNum">       6 </span>            :     required this.onRefresh,</a>
+<a name="7"><span class="lineNum">       7 </span>            :     this.triggerOffset = 75.0,</a>
+<a name="8"><span class="lineNum">       8 </span>            :     this.maxDisplacement = 110.0,</a>
+<a name="9"><span class="lineNum">       9 </span>            :     this.displacementSpeed = 4.0,</a>
+<a name="10"><span class="lineNum">      10 </span>            :     this.edgeOffset = 0.0,</a>
+<a name="11"><span class="lineNum">      11 </span>            :     this.indicatorSize,</a>
+<a name="12"><span class="lineNum">      12 </span>            :     this.indicatorBuilder,</a>
+<a name="13"><span class="lineNum">      13 </span>            :     this.indicatorRefreshChild,</a>
+<a name="14"><span class="lineNum">      14 </span>            :     this.indicatorDecoration,</a>
+<a name="15"><span class="lineNum">      15 </span>            :     this.indicatorChild = const Icon(Icons.refresh),</a>
+<a name="16"><span class="lineNum">      16 </span>            :     this.resetDuration = const Duration(milliseconds: 250),</a>
+<a name="17"><span class="lineNum">      17 </span>            :     this.resetCurve = Curves.easeOutCirc,</a>
+<a name="18"><span class="lineNum">      18 </span>            :   });</a>
+<a name="19"><span class="lineNum">      19 </span>            : </a>
+<a name="20"><span class="lineNum">      20 </span>            :   /// The minimum distance from the panelContent viewport's edge [edgeOffset]</a>
+<a name="21"><span class="lineNum">      21 </span>            :   /// where the refresh callback is allow to be triggered.</a>
+<a name="22"><span class="lineNum">      22 </span>            :   /// In most cases, [triggerOffset] distance starts counting from the parent's</a>
+<a name="23"><span class="lineNum">      23 </span>            :   /// edges. However, if [edgeOffset] is larger than zero then the [triggerOffset]</a>
+<a name="24"><span class="lineNum">      24 </span>            :   /// value is calculated from that offset instead of the parent's edge.</a>
+<a name="25"><span class="lineNum">      25 </span>            :   ///</a>
+<a name="26"><span class="lineNum">      26 </span>            :   /// By default, the value of `triggerOffset` is 75.</a>
+<a name="27"><span class="lineNum">      27 </span>            :   final double triggerOffset;</a>
+<a name="28"><span class="lineNum">      28 </span>            : </a>
+<a name="29"><span class="lineNum">      29 </span>            :   /// Refresh indicator widget's maximum displacement distance. The distance</a>
+<a name="30"><span class="lineNum">      30 </span>            :   /// is calculated from the panelContent viewport's edge [edgeOffset]</a>
+<a name="31"><span class="lineNum">      31 </span>            :   /// In most cases, [triggerOffset] distance starts counting from the parent's</a>
+<a name="32"><span class="lineNum">      32 </span>            :   /// edges. However, if [edgeOffset] is larger than zero then the [triggerOffset]</a>
+<a name="33"><span class="lineNum">      33 </span>            :   /// value is calculated from that offset instead of the parent's edge.</a>
+<a name="34"><span class="lineNum">      34 </span>            :   ///</a>
+<a name="35"><span class="lineNum">      35 </span>            :   /// By default, the value of `triggerOffset` is 110.</a>
+<a name="36"><span class="lineNum">      36 </span>            :   final double maxDisplacement;</a>
+<a name="37"><span class="lineNum">      37 </span>            : </a>
+<a name="38"><span class="lineNum">      38 </span>            :   /// The offset where refresh indicator widget starts to appear on drag start.</a>
+<a name="39"><span class="lineNum">      39 </span>            :   ///</a>
+<a name="40"><span class="lineNum">      40 </span>            :   /// Depending whether the indicator is showing on the top or bottom, the value</a>
+<a name="41"><span class="lineNum">      41 </span>            :   /// of this variable controls how far from the parent's edge the progress</a>
+<a name="42"><span class="lineNum">      42 </span>            :   /// indicator starts to appear.</a>
+<a name="43"><span class="lineNum">      43 </span>            :   ///</a>
+<a name="44"><span class="lineNum">      44 </span>            :   /// By default, the edge offset is set to 0.</a>
+<a name="45"><span class="lineNum">      45 </span>            :   final double edgeOffset;</a>
+<a name="46"><span class="lineNum">      46 </span>            : </a>
+<a name="47"><span class="lineNum">      47 </span>            :   /// Defines refresh indicator's displacement speed rate over</a>
+<a name="48"><span class="lineNum">      48 </span>            :   /// sliding panel dragged distance.</a>
+<a name="49"><span class="lineNum">      49 </span>            :   ///</a>
+<a name="50"><span class="lineNum">      50 </span>            :   /// By default, the value of `displacementSpeed` is 4.</a>
+<a name="51"><span class="lineNum">      51 </span>            :   final double displacementSpeed;</a>
+<a name="52"><span class="lineNum">      52 </span>            : </a>
+<a name="53"><span class="lineNum">      53 </span>            :   /// A function that's called when the user has dragged the refresh indicator</a>
+<a name="54"><span class="lineNum">      54 </span>            :   /// far enough to demonstrate that they want the app to refresh. The returned</a>
+<a name="55"><span class="lineNum">      55 </span>            :   /// [Future] must complete when the refresh operation is finished.</a>
+<a name="56"><span class="lineNum">      56 </span>            :   final RefreshCallback onRefresh;</a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span>            :   /// The duration when indicator should be back to its initial position</a>
+<a name="59"><span class="lineNum">      59 </span>            :   ///</a>
+<a name="60"><span class="lineNum">      60 </span>            :   /// By default, the value of `resetDuration` is 250ms.</a>
+<a name="61"><span class="lineNum">      61 </span>            :   final Duration resetDuration;</a>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<a name="63"><span class="lineNum">      63 </span>            :   /// The animation curve when indicator is moving back to its initial position</a>
+<a name="64"><span class="lineNum">      64 </span>            :   ///</a>
+<a name="65"><span class="lineNum">      65 </span>            :   /// By default, the value of `resetCurve` is Curves.easeOutCirc.</a>
+<a name="66"><span class="lineNum">      66 </span>            :   final Curve resetCurve;</a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span>            :   /// Size of refresh indicator widget</a>
+<a name="69"><span class="lineNum">      69 </span>            :   ///</a>
+<a name="70"><span class="lineNum">      70 </span>            :   /// By default, the value of `indicatorSize` is Size(42,42).</a>
+<a name="71"><span class="lineNum">      71 </span>            :   final Size? indicatorSize;</a>
+<a name="72"><span class="lineNum">      72 </span>            : </a>
+<a name="73"><span class="lineNum">      73 </span>            :   /// Use this builder if want to show a custom RefreshIndicator widget.</a>
+<a name="74"><span class="lineNum">      74 </span>            :   /// The builder has below params:</a>
+<a name="75"><span class="lineNum">      75 </span>            :   /// - `BuildContext` context: to pass context to the builder</a>
+<a name="76"><span class="lineNum">      76 </span>            :   /// - `bool` isRefreshing: whether the widget is refreshing or not</a>
+<a name="77"><span class="lineNum">      77 </span>            :   /// - `double` displacement: the displacement position of the RefresherWidget</a>
+<a name="78"><span class="lineNum">      78 </span>            :   ///</a>
+<a name="79"><span class="lineNum">      79 </span>            :   /// The `isRefreshing` params typically used to show different widget when</a>
+<a name="80"><span class="lineNum">      80 </span>            :   /// the refresher is refreshing. i.e. Show CircularProgressIndicator when</a>
+<a name="81"><span class="lineNum">      81 </span>            :   /// refreshing, otherwise show refresh icon.</a>
+<a name="82"><span class="lineNum">      82 </span>            :   ///</a>
+<a name="83"><span class="lineNum">      83 </span>            :   /// The `displacement` params typically used to manipulate indicator widget</a>
+<a name="84"><span class="lineNum">      84 </span>            :   /// when it is exposed. i.e. displacement is used as a reference for the</a>
+<a name="85"><span class="lineNum">      85 </span>            :   /// refresher's opacity. The bigger the displacement, the bigger the opacity,</a>
+<a name="86"><span class="lineNum">      86 </span>            :   /// and vice versa.</a>
+<a name="87"><span class="lineNum">      87 </span>            :   ///</a>
+<a name="88"><span class="lineNum">      88 </span>            :   /// The widget size returns by this builder is affected by [indicatorSize]</a>
+<a name="89"><span class="lineNum">      89 </span>            :   ///</a>
+<a name="90"><span class="lineNum">      90 </span>            :   /// By default, the value of `indicatorBuilder` is null</a>
+<a name="91"><span class="lineNum">      91 </span>            :   final Widget Function(</a>
+<a name="92"><span class="lineNum">      92 </span>            :     BuildContext context,</a>
+<a name="93"><span class="lineNum">      93 </span>            :     bool isRefreshing,</a>
+<a name="94"><span class="lineNum">      94 </span>            :     double displacement,</a>
+<a name="95"><span class="lineNum">      95 </span>            :   )? indicatorBuilder;</a>
+<a name="96"><span class="lineNum">      96 </span>            : </a>
+<a name="97"><span class="lineNum">      97 </span>            :   /// Widget to be shown on refresh indicator when it is exposed</a>
+<a name="98"><span class="lineNum">      98 </span>            :   /// (panel is dragged), Typically an [Icon]</a>
+<a name="99"><span class="lineNum">      99 </span>            :   ///</a>
+<a name="100"><span class="lineNum">     100 </span>            :   /// This will be ignored if [indicatorBuilder] is not null</a>
+<a name="101"><span class="lineNum">     101 </span>            :   ///</a>
+<a name="102"><span class="lineNum">     102 </span>            :   /// By default, the value of `indicatorChild` is refresh icon.</a>
+<a name="103"><span class="lineNum">     103 </span>            :   final Widget indicatorChild;</a>
+<a name="104"><span class="lineNum">     104 </span>            : </a>
+<a name="105"><span class="lineNum">     105 </span>            :   /// Widget to be shown on refresh indicator when it is refeshing</a>
+<a name="106"><span class="lineNum">     106 </span>            :   /// Typically a [CircularProgressIndicator]</a>
+<a name="107"><span class="lineNum">     107 </span>            :   ///</a>
+<a name="108"><span class="lineNum">     108 </span>            :   /// This will be ignored if [indicatorBuilder] is not null</a>
+<a name="109"><span class="lineNum">     109 </span>            :   ///</a>
+<a name="110"><span class="lineNum">     110 </span>            :   /// By default, the value of `indicatorRefreshChild` is</a>
+<a name="111"><span class="lineNum">     111 </span>            :   /// CircularProgressIndicator.</a>
+<a name="112"><span class="lineNum">     112 </span>            :   final Widget? indicatorRefreshChild;</a>
+<a name="113"><span class="lineNum">     113 </span>            : </a>
+<a name="114"><span class="lineNum">     114 </span>            :   /// Refresh indicator widget decoration</a>
+<a name="115"><span class="lineNum">     115 </span>            :   ///</a>
+<a name="116"><span class="lineNum">     116 </span>            :   /// This will be ignored if [indicatorBuilder] is not null</a>
+<a name="117"><span class="lineNum">     117 </span>            :   final BoxDecoration? indicatorDecoration;</a>
+<a name="118"><span class="lineNum">     118 </span>            : </a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">          1 :   @override</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          1 :   List&lt;Object?&gt; get props =&gt; [</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">          1 :         onRefresh,</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">          1 :         triggerOffset,</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">          1 :         maxDisplacement,</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">          1 :         displacementSpeed,</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          1 :         edgeOffset,</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">          1 :         indicatorSize,</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">          1 :         indicatorBuilder,</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">          1 :         indicatorRefreshChild,</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">          1 :         indicatorDecoration,</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">          1 :         indicatorChild,</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">          1 :         resetDuration,</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">          1 :         resetCurve,</span></a>
+<a name="133"><span class="lineNum">     133 </span>            :       ];</a>
+<a name="134"><span class="lineNum">     134 </span>            : }</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

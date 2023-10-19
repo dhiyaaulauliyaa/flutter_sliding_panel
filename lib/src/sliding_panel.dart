@@ -3,9 +3,8 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_sliding_panel/src/entities/internal/internal_controller.dart';
 
-part 'entities/internal/internal_controller.dart';
-part 'entities/internal/internal_detail.dart';
 part 'entities/panel/enums.dart';
 part 'entities/panel/panel_config.dart';
 part 'entities/panel/panel_controller.dart';
@@ -212,7 +211,7 @@ class SlidingPanel extends StatelessWidget {
   /// Callback to be called when drag updated.
   final void Function(SlidingPanelDetail details)? onDragUpdate;
 
-  final _internalController = _InternalController();
+  final _internalController = InternalController();
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +232,7 @@ class SlidingPanel extends StatelessWidget {
               ),
 
               /* Panel */
-              _PanelWidget(
+              PanelWidget(
                 maxWidth: constraints.maxWidth,
                 maxHeight: constraints.maxHeight,
                 controller: controller,
@@ -250,7 +249,7 @@ class SlidingPanel extends StatelessWidget {
 
               /* Refresh Indicator */
               if (dragToRefreshConfig != null)
-                _RefresherWidget(
+                RefresherWidget(
                   config: dragToRefreshConfig!,
                   panelController: controller,
                   internalController: _internalController,

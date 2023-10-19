@@ -1,3 +1,10 @@
+## 0.0.5
+* Introduced unit tests and widget tests, significantly improving code coverage for the repository.
+* Developed a web application for package illustrative purposes.
+* Enhanced the package example by incorporating device preview, customizer, and visual improvements.
+* Improved the readme by including links to examples, comprehensive feature details, and a coverage badge.
+
+
 ## 0.0.4
 * Fix unmounted bug on RefresherWidget
 * Add custom child widget builder for Refresher

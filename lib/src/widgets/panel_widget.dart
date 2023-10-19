@@ -1,7 +1,8 @@
 part of '../sliding_panel.dart';
 
-class _PanelWidget extends StatefulWidget {
-  const _PanelWidget({
+class PanelWidget extends StatefulWidget {
+  const PanelWidget({
+    super.key,
     required this.maxHeight,
     required this.maxWidth,
     required this.child,
@@ -19,7 +20,7 @@ class _PanelWidget extends StatefulWidget {
   final double maxHeight;
   final double maxWidth;
 
-  final _InternalController internalController;
+  final InternalController internalController;
 
   final SlidingPanelController controller;
   final SlidingPanelConfig config;
@@ -34,10 +35,10 @@ class _PanelWidget extends StatefulWidget {
   final void Function(SlidingPanelDetail details)? onDragUpdate;
 
   @override
-  State<_PanelWidget> createState() => _PanelWidgetState();
+  State<PanelWidget> createState() => _PanelWidgetState();
 }
 
-class _PanelWidgetState extends State<_PanelWidget> {
+class _PanelWidgetState extends State<PanelWidget> {
   late SlidingPanelStatus _lastPanelStatus;
 
   late double _expandPosition;
@@ -64,7 +65,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant _PanelWidget oldWidget) {
+  void didUpdateWidget(covariant PanelWidget oldWidget) {
     if (!mounted) return;
     super.didUpdateWidget(oldWidget);
 
@@ -148,7 +149,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
   void _initController() {
     widget.controller.addListener(_controllerListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.controller._initValue(
+      widget.controller.initValue(
         SlidingPanelDetail(
           status: _lastPanelStatus,
           position: _panelPosition,
@@ -299,7 +300,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
 
   void _dragUpdateHandler(DragUpdateDetails details) {
     _resetAnimation();
-    widget.controller._setStatus(SlidingPanelStatus.onDrag);
+    widget.controller.setStatus(SlidingPanelStatus.onDrag);
 
     final delta = -(details.primaryDelta ?? 0);
     var newOffset = _panelPosition + delta;
@@ -332,7 +333,7 @@ class _PanelWidgetState extends State<_PanelWidget> {
       newOffset = _panelPosition + (delta * pow(1 - exceedRatio, 2));
     }
 
-    widget.controller._setValue(
+    widget.controller.setValue(
       widget.controller.value.copyWith(
         status: SlidingPanelStatus.onDrag,
         position: newOffset,
@@ -392,14 +393,14 @@ class _PanelWidgetState extends State<_PanelWidget> {
         widget.internalController.setAnimatingStatus(_isAnimating);
 
         /* Handle Status */
-        widget.controller._setStatus(status);
+        widget.controller.setStatus(status);
         _lastPanelStatus = status;
 
         /* Handle Position */
         _panelPosition = position;
 
         /* Handle Controller */
-        widget.controller._setValue(
+        widget.controller.setValue(
           widget.controller.value.copyWith(
             status: status,
             position: position,
