@@ -1,0 +1,14 @@
+android/** linguist-vendored
+ios/** linguist-vendored
+web/** linguist-vendored
+linux/** linguist-vendored
+macos/** linguist-vendored
+windows/** linguist-vendored
+coverage/** linguist-vendored
+docs/** linguist-vendored
+example/android/** linguist-vendored
+example/ios/** linguist-vendored
+example/web/** linguist-vendored
+example/linux/** linguist-vendored
+example/macos/** linguist-vendored
+example/windows/** linguist-vendored
