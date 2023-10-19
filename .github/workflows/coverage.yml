@@ -8,10 +8,10 @@ on:
   push:
     branches:
       - dev
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   coverage:
