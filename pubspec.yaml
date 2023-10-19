@@ -1,7 +1,35 @@
 name: flutter_sliding_panel
 description: A widget that has ability to be slided like a panel. Usually used in the homepage of an app.
 version: 0.0.4
+
 homepage: https://ad.auliyaa.com
+repository: https://github.com/dhiyaaulauliyaa/flutter_sliding_panel
+issue_tracker: https://github.com/dhiyaaulauliyaa/flutter_sliding_panel/issues
+
+topics:
+  - widget
+  - panel
+  - sliding
+  - refresher
+  - draggable
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+screenshots:
+  - description: 'SlidingPanel with Non-Scrollable Child'
+    path: files/SlidingPanel-NonScrollableChild.jpg
+  - description: 'SlidingPanel with Single Scrollable Child'
+    path: files/SlidingPanel-SingleScrollableChild.jpg
+  - description: 'SlidingPanel with Multi Scrollable Child'
+    path: files/SlidingPanel-MultiScrollableChild.jpg
+  - description: 'Show Refresh Indicator with SlidingPanel'
+    path: files/SlidingPanel-ShowRefreshIndicator.jpg
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
