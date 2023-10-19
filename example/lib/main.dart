@@ -1,9 +1,16 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_panel/flutter_sliding_panel.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      builder: (context) => const MyApp(),
+      backgroundColor: Colors.grey[900],
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +20,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Sliding Panel',
-      theme: ThemeData(brightness: Brightness.dark),
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigoAccent,
+        appBarTheme: const AppBarTheme(
+          elevation: 2,
+        ),
+      ),
       home: const MyHomePage(),
     );
   }
@@ -31,6 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int slidingPanelTypeChoice = 0;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -39,26 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Sliding Panel'),
-        actions: [
-          PopupMenuButton<int>(
-            child: const Icon(Icons.more_vert),
-            onSelected: (value) => setState(
-              () => slidingPanelTypeChoice = value,
-            ),
-            itemBuilder: (BuildContext context) {
-              return List.generate(
-                3,
-                (index) => PopupMenuItem<int>(
-                  value: index,
-                  child: Text(_getTypeFromIndex(index)),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: const Text('Flutter Sliding Panel')),
       floatingActionButton: FloatingActionButton(
         child: ValueListenableBuilder<SlidingPanelDetail>(
           valueListenable: controller,
@@ -78,7 +82,36 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
       ),
-      body: _slidingPanelWidget(),
+      body: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+          },
+        ),
+        child: _slidingPanelWidget(
+          ListView.builder(
+            itemCount: 3,
+            padding: const EdgeInsets.all(20),
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: ElevatedButton(
+                onPressed: () => setState(() => slidingPanelTypeChoice = index),
+                
+                style: ButtonStyle(
+                  
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => slidingPanelTypeChoice == index
+                        ? Theme.of(context).colorScheme.onSecondary
+                        : null,
+                  ),
+                ),
+                child: Text(_getTypeFromIndex(index)),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -95,15 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Widget _slidingPanelWidget() {
+  Widget _slidingPanelWidget(Widget body) {
     switch (slidingPanelTypeChoice) {
       case 0:
-        return SlidingPanelExample(controller: controller);
+        return SlidingPanelExample(
+          controller: controller,
+          body: body,
+        );
       case 1:
-        return ScrollableContentSlidingPanelExample(controller: controller);
+        return ScrollableContentSlidingPanelExample(
+          controller: controller,
+          body: body,
+        );
       case 2:
         return MultiScrollableContentSlidingPanelExample(
           controller: controller,
+          body: body,
         );
       default:
         return const SizedBox();
@@ -115,9 +155,11 @@ class SlidingPanelExample extends StatelessWidget {
   const SlidingPanelExample({
     super.key,
     required this.controller,
+    required this.body,
   });
 
   final SlidingPanelController controller;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
@@ -147,21 +189,17 @@ class SlidingPanelExample extends StatelessWidget {
           ),
         ],
       ),
-      pageContent: Column(
-        children: const [
-          Icon(Icons.bolt_rounded, size: 200),
-        ],
-      ),
+      pageContent: body,
       leading: Container(
         width: 50,
         height: 8,
         margin: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.amber,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(100),
         ),
       ),
-      panelContent: const Text(
+      panelContent: Text(
         '\nDRAG ME!',
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -169,6 +207,7 @@ class SlidingPanelExample extends StatelessWidget {
           letterSpacing: -1,
           fontWeight: FontWeight.bold,
           fontStyle: FontStyle.italic,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
@@ -179,9 +218,11 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
   const ScrollableContentSlidingPanelExample({
     super.key,
     required this.controller,
+    required this.body,
   });
 
   final SlidingPanelController controller;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +240,8 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
         indicatorSize: const Size(52, 52),
         indicatorBuilder: (context, isRefreshing, displacement) {
           return DecoratedBox(
-            decoration: const BoxDecoration(
-              color: Colors.amber,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: BoxShape.circle,
             ),
             child: isRefreshing
@@ -208,7 +249,7 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     child: Center(
                       child: CircularProgressIndicator(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ),
                   )
@@ -216,7 +257,7 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
                     angle: displacement * 0.05,
                     child: Icon(
                       Icons.refresh,
-                      color: Colors.grey[700],
+                      color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
           );
@@ -236,23 +277,19 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
           ),
         ],
       ),
-      pageContent: Column(
-        children: const [
-          Icon(Icons.bolt_rounded, size: 200),
-        ],
-      ),
+      pageContent: body,
       panelContentBuilder: (controller, physics) => Column(
         children: [
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 12),
-            color: Colors.white.withOpacity(0.3),
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.3),
             child: Container(
               height: 4,
               width: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
           ),
@@ -263,7 +300,9 @@ class ScrollableContentSlidingPanelExample extends StatelessWidget {
               itemBuilder: (context, index) => Container(
                 height: 50,
                 alignment: Alignment.center,
-                color: Colors.white.withOpacity(index.isEven ? 0.2 : 0.3),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(
+                      index.isEven ? 0.2 : 0.3,
+                    ),
                 child: Text('$index'),
               ),
             ),
@@ -278,9 +317,11 @@ class MultiScrollableContentSlidingPanelExample extends StatefulWidget {
   const MultiScrollableContentSlidingPanelExample({
     super.key,
     required this.controller,
+    required this.body,
   });
 
   final SlidingPanelController controller;
+  final Widget body;
 
   @override
   State<MultiScrollableContentSlidingPanelExample> createState() =>
@@ -324,17 +365,13 @@ class _MultiScrollableContentSlidingPanelExampleState
           ),
         ],
       ),
-      pageContent: Column(
-        children: const [
-          Icon(Icons.bolt_rounded, size: 200),
-        ],
-      ),
+      pageContent: widget.body,
       leading: Container(
         width: 50,
         height: 8,
         margin: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.amber,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(100),
         ),
       ),
@@ -413,7 +450,10 @@ class _MultiScrollableChildTabState extends State<MultiScrollableChildTab>
       itemBuilder: (context, index) => Container(
         height: 50,
         alignment: Alignment.center,
-        color: Colors.white.withOpacity(index.isEven ? 0.2 : 0.3),
+        color: Theme.of(context)
+            .colorScheme
+            .secondary
+            .withOpacity(index.isEven ? 0.2 : 0.3),
         child: Text('Tab ${widget.tabIndex + 1} Item $index'),
       ),
     );
