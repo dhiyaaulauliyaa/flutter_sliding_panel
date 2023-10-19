@@ -23,13 +23,13 @@ platforms:
 
 screenshots:
   - description: 'SlidingPanel with Non-Scrollable Child'
-    path: files/SlidingPanel-NonScrollableChild.jpg
+    path: files/SlidingPanel-NonScrollableChild.gif
   - description: 'SlidingPanel with Single Scrollable Child'
-    path: files/SlidingPanel-SingleScrollableChild.jpg
+    path: files/SlidingPanel-SingleScrollableChild.gif
   - description: 'SlidingPanel with Multi Scrollable Child'
-    path: files/SlidingPanel-MultiScrollableChild.jpg
+    path: files/SlidingPanel-MultiScrollableChild.gif
   - description: 'Show Refresh Indicator with SlidingPanel'
-    path: files/SlidingPanel-ShowRefreshIndicator.jpg
+    path: files/SlidingPanel-ShowRefreshIndicator.gif
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
